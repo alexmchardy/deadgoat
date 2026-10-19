@@ -14,7 +14,7 @@ create function events_are_append_only() returns trigger as $$
 begin
   raise exception 'events is append-only';
 end;
-$$ language plpgsql;
+$$ language plpgsql set search_path = '';
 
 create trigger events_no_update_delete
   before update or delete on events

@@ -12,6 +12,8 @@ export async function migrate(connectionString: string): Promise<void> {
     await client.query(
       "create table if not exists schema_migrations (name text primary key)",
     );
+    // Keep the bookkeeping table off Supabase's public REST API too.
+    await client.query("alter table schema_migrations enable row level security");
     const done = new Set(
       (await client.query("select name from schema_migrations")).rows.map((r) => r.name),
     );
